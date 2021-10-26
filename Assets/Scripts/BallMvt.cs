@@ -7,6 +7,8 @@ public class BallMvt : MonoBehaviour
     // Start is called before the first frame update
     public float speed;
     private Rigidbody rb;
+    public AudioSource audioData;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -18,6 +20,7 @@ public class BallMvt : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Return))
         {
             rb.AddForce(0, 0, speed * Time.deltaTime);
+            audioData.Play(0);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
