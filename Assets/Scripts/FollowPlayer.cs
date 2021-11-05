@@ -27,7 +27,7 @@ public class FollowPlayer : MonoBehaviour
         }
         else
         {
-            Debug.Log("Player died !!");
+            
             return;
         }
     }

@@ -9,13 +9,11 @@ public class ArCursor : MonoBehaviour
     public GameObject cursorChildObject;
     public GameObject objectToPlace;
     public ARRaycastManager raycastManager;
-    bool isInstanciated = false;
 
     public bool useCursor;  
     // Start is called before the first frame update
     void Start()
     {
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         cursorChildObject.SetActive(useCursor);
     }
 
@@ -31,7 +29,7 @@ public class ArCursor : MonoBehaviour
         {
             if (useCursor)
             {
-                GameObject.Instantiate(objectToPlace, transform.position, transform.rotation);
+                Instantiate(objectToPlace, transform.position, transform.rotation);
             }
             else
             {
@@ -39,12 +37,8 @@ public class ArCursor : MonoBehaviour
                 raycastManager.Raycast(Input.GetTouch(0).position, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes);
                 if (hits.Count > 0)
                 {
-                    Debug.Log('a');
-                    objectToPlace.transform.localScale = new Vector3(.5f, .5f, .5f);
-                    //foreach(Transform pin in objectToPlace.GetComponentInChildren<Transform>())
-                    //{
-                        GameObject.Instantiate(objectToPlace, hits[0].pose.position, hits[0].pose.rotation);
-                    //}
+                    objectToPlace.transform.localScale = new Vector3(.1f, .1f, .1f);
+                    Instantiate(objectToPlace, hits[0].pose.position, hits[0].pose.rotation);
                 }
             }
         }

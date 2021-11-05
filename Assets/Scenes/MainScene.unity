@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 20706551}
   m_Layer: 0
   m_Name: AR Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorChildObject: {fileID: 516118872}
-  objectToPlace: {fileID: 184454, guid: ac1af96fd5e0f4f9e97339b652aa389b, type: 3}
+  objectToPlace: {fileID: 5084738158722509225, guid: 8d9495e01177efc4ca5f893053687a5c, type: 3}
   raycastManager: {fileID: 2020963310}
   useCursor: 1
 --- !u!4 &1549396217
