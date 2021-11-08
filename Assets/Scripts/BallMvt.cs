@@ -25,7 +25,7 @@ public class BallMvt : MonoBehaviour
         //SoundManager.playBallSound();
         Vector3 position = rb.transform.position;
 
-        if (Input.GetKeyUp(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             rb.AddForce(0, 0, speed * 20000 * Time.deltaTime);
         }
