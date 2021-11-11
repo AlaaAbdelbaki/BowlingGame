@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
+[RequireComponent(typeof(ARPlaneManager))]  
 public class ArCursor : MonoBehaviour
 {
 
+    /*private Canvas canvas;*/
+    private ARPlaneManager planeManager;
     public GameObject cursorChildObject;
     public GameObject objectToPlace;
     public ARRaycastManager raycastManager;
-    bool isInstanciated = false;
 
-    public bool useCursor;  
+    public bool useCursor;
+    private bool isObjectPlaced = false;
     // Start is called before the first frame update
     void Start()
     {
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        /*canvas = GetComponent<Canvas>();*/
+        planeManager = GetComponent<ARPlaneManager>();
         cursorChildObject.SetActive(useCursor);
     }
 
@@ -29,25 +33,26 @@ public class ArCursor : MonoBehaviour
 
         if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
+            
             if (useCursor)
             {
-                GameObject.Instantiate(objectToPlace, transform.position, transform.rotation);
+                Instantiate(objectToPlace, transform.position, transform.rotation);
             }
             else
             {
                 List<ARRaycastHit> hits = new List<ARRaycastHit>();
                 raycastManager.Raycast(Input.GetTouch(0).position, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes);
-                if (hits.Count > 0)
+                if (hits.Count > 0 && !isObjectPlaced)
                 {
-                    Debug.Log('a');
-                    objectToPlace.transform.localScale = new Vector3(.5f, .5f, .5f);
-                    //foreach(Transform pin in objectToPlace.GetComponentInChildren<Transform>())
-                    //{
-                        GameObject.Instantiate(objectToPlace, hits[0].pose.position, hits[0].pose.rotation);
-                    //}
+                    objectToPlace.transform.localScale = new Vector3(.1f, .1f, .1f);
+                    Instantiate(objectToPlace, hits[0].pose.position, hits[0].pose.rotation);
+                    isObjectPlaced = true;
+                   /* canvas.gameObject.SetActive(true);*/
+                    SetAllPlanesActive(false);
                 }
             }
         }
+          
     }
 
     void UpdateCursor()
@@ -62,4 +67,14 @@ public class ArCursor : MonoBehaviour
             transform.rotation = hits[0].pose.rotation;
         }
     }
+
+    void SetAllPlanesActive(bool value)
+    {
+        foreach (var plane in planeManager.trackables)
+            plane.gameObject.SetActive(value);
+    }
+
+
+    
+
 }
