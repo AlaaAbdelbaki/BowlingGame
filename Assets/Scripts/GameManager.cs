@@ -1,13 +1,18 @@
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 public class GameManager : MonoBehaviour
 {
 
     public GameObject[] pins;
     public GameObject ball;
+    public Text[] scrs;
+    public Text[] scrsRound;
     int turnCounter = 1;
+    //int RoundCounter = 1;
+    int[] scrsValues = { 0,0,0,0,0,0,0,0,0,0 };
+    ArrayList scrsTotalValues = new ArrayList() ;
     int score = 0;
     public Text ScoreUi;
     Vector3[] positions;
@@ -39,13 +44,12 @@ public class GameManager : MonoBehaviour
         }
         if ( ball.transform.position.y < -20 )
         {
-            CountPinsDown();           
-           // CheckIfPinsActive();
+            CountPinsDown();
+            scrs[turnCounter-1].text = scrsValues[turnCounter-1].ToString();
+            scrs[turnCounter-1].gameObject.SetActive(true);
             ResetPins();
         }
-
-        Debug.Log(turnCounter);
-
+        
     }
     void CheckIfPinsActive ()
     {
@@ -64,6 +68,11 @@ public class GameManager : MonoBehaviour
         else if (p == 0 && turnCounter % 2 != 0)
         {
             turnCounter = turnCounter+2;
+            int TotalScrForEachRounds = (scrsValues[turnCounter - 3] + scrsValues[turnCounter - 2]) * 80;
+            scrsTotalValues.Add(TotalScrForEachRounds);
+            scrsRound[(turnCounter - 3) / 2].text = scrsTotalValues[(turnCounter - 3) / 2].ToString();
+            scrsRound[(turnCounter - 3) / 2].gameObject.SetActive(true);
+
         }
         else if (p == 0 && turnCounter % 2 == 0)
         {
@@ -73,14 +82,29 @@ public class GameManager : MonoBehaviour
     }
     void CountPinsDown()
     {
+        
         for (int i = 0; i < pins.Length; i++)
         {
             if (pins[i].transform.eulerAngles.z > 5 && pins[i].transform.eulerAngles.z < 355 && pins[i].activeSelf)
             {
                 score++;
                 pins[i].SetActive(false);
+                
             }
         }
+        scrsValues[turnCounter - 1] = score;
+        score = 0;
+
+        if (turnCounter % 2 == 0)
+        {
+
+            int TotalScrForEachRounds = (scrsValues[turnCounter - 2] + scrsValues[turnCounter - 1]) * 80;
+            scrsTotalValues.Add(TotalScrForEachRounds);
+            scrsRound[(turnCounter - 2) / 2].text = scrsTotalValues[(turnCounter - 2) / 2].ToString();
+            scrsRound[(turnCounter - 2) / 2].gameObject.SetActive(true);
+
+        }
+        
         ScoreUi.text = score.ToString();
         if (score > highScore.highScore )
         {

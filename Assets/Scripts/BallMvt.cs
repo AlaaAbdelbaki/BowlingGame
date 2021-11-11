@@ -16,13 +16,13 @@ public class BallMvt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 acc = Input.acceleration;
+        Vector3 acc = Input.acceleration;
 
-        //if (acc.z > .6)
-        //{
-        //    rb.AddForce(0, 0, speed * 10000 * Time.deltaTime);
-        //}
-        //SoundManager.playBallSound();
+        if (acc.z > .6)
+        {
+            rb.AddForce(0, 0, speed * 10000 * Time.deltaTime);
+        }
+       // SoundManager.playBallSound();
         Vector3 position = rb.transform.position;
 
         if (Input.GetKeyDown(KeyCode.Return))
